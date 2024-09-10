@@ -1,5 +1,3 @@
-# inventario.py
-
 class Producto:
     def __init__(self, nombre, precio, cantidad):
         self.nombre = nombre
@@ -7,19 +5,22 @@ class Producto:
         self.cantidad = cantidad
 
     def mostrar_detalles(self):
-        print(f"Producto: {self.nombre}, Precio: {self.precio}, Cantidad: {self.cantidad}")
-
+        return f"Producto: {self.nombre}, Precio: {self.precio}, Cantidad: {self.cantidad}"
 
 class Inventario:
     def __init__(self):
         self.productos = []
 
     def agregar_producto(self, producto):
-        self.productos.append(producto)
+        if isinstance(producto, Producto):
+            self.productos.append(producto)
+        else:
+            raise ValueError("El objeto debe ser una instancia de la clase Producto")
 
-    def eliminar_producto(self, producto_nombre):
-        self.productos = [p for p in self.productos if p.nombre != producto_nombre]
+    def eliminar_producto(self, nombre_producto):
+        self.productos = [p for p in self.productos if p.nombre != nombre_producto]
 
     def mostrar_inventario(self):
-        for producto in self.productos:
-            producto.mostrar_detalles()
+        if not self.productos:
+            return "El inventario está vacío."
+        return "\n".join([producto.mostrar_detalles() for producto in self.productos])
